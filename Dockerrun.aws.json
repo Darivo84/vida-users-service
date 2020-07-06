@@ -1,0 +1,50 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions": [
+        {
+            "name": "vida-users-service",
+            "links": [
+                "vida-users-service-db"
+            ],
+            "image": "darivo/vida-users-service",
+            "essential": false,
+            "portMappings": [
+                {
+                    "containerPort": 7102,
+                    "hostPort": 80
+                }
+            ],
+            "environment": [
+                {
+                    "name": "MYSQL_ROOT_PASSWORD",
+                    "value": "password"
+                },
+                {
+                    "name": "MYSQL_DATABASE",
+                    "value": "db"
+                },
+                {
+                    "name": "PORT",
+                    "value": "7202"
+                }
+            ],
+            "memory": 500
+        },
+        {
+            "environment": [
+                {
+                    "name": "MYSQL_ROOT_PASSWORD",
+                    "value": "password"
+                },
+                {
+                    "name": "vida-users-service-db",
+                    "value": "DB_URI=mysql://root:password@vida-users-service-db/db?charset=UTF8"
+                }
+            ],
+            "name": "vida-notes-service-db",
+            "image": "mysql:5.7.20",
+            "memory": 500,
+            "essential": true
+        }
+    ]
+}
